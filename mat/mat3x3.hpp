@@ -14,17 +14,15 @@ struct mat3x3 {
 
 		mat3x3(const mat3x3&&);
 
-		~mat3x3();
-
 		T operator [](int) const;
 
 		mat3x3& operator =(const mat3x3&);
 
-		mat3x3&& operator *(const matrix3&) const &;
+		mat3x3&& operator *(const mat3x3&) const &;
 
-		mat3x3&& operator *(const matrix3&) &&;
+		mat3x3&& operator *(const mat3x3&) &&;
 
-		mat3x3& operator *=(const matrix3&);
+		mat3x3& operator *=(const mat3x3&);
 
 		mat3x3& invert();
 
