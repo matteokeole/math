@@ -1,18 +1,26 @@
 #include "vec2.hpp"
 
 template<typename T>
-vec2<T>::vec2(T x, T y) : x(x), y(y) {}
+vec2<T>::vec2(T x, T y) : x(x), y(y) {
+	std::cout << "Default: " << (*this) << std::endl;
+}
 
 template<typename T>
-vec2<T>::vec2(const vec2& v) : x(v.x), y(v.y) {}
+vec2<T>::vec2(const vec2& v) : x(v.x), y(v.y) {
+	std::cout << "Copy: " << (*this) << std::endl;
+}
 
 template<typename T>
-vec2<T>::vec2(const vec2&& v) : x(v.x), y(v.y) {}
+vec2<T>::vec2(const vec2&& v) : x(v.x), y(v.y) {
+	std::cout << "Move: " << (*this) << std::endl;
+}
 
 template<typename T>
 vec2<T>& vec2<T>::operator =(const vec2& v) {
 	x = v.x;
 	y = v.y;
+
+	std::cout << "Assign: " << (*this) << std::endl;
 
 	return *this;
 }
@@ -36,6 +44,20 @@ vec2<T>& vec2<T>::operator +=(const vec2& v) {
 	y += v.y;
 
 	return *this;
+}
+
+template<typename T>
+vec2<T>&& vec2<T>::operator -() const & {
+	//return _mm_ssqrt
+	return std::move(vec2(-x, -y));
+}
+
+template<typename T>
+vec2<T>&& vec2<T>::operator -() && {
+	x = -x;
+	y = -y;
+
+	return std::move(*this);
 }
 
 template<typename T>
@@ -108,7 +130,7 @@ bool vec2<T>::operator ==(const vec2& v) const {
 
 template<typename T>
 vec2<T>& vec2<T>::normalize() {
-	T l = length();
+	const T l = length();
 
 	if (l == 0) {
 		return *this;

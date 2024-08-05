@@ -1,13 +1,19 @@
 #include "vec4.hpp"
 
 template<typename T>
-vec4<T>::vec4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+vec4<T>::vec4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {
+	std::cout << "Default: " << (*this) << std::endl;
+}
 
 template<typename T>
-vec4<T>::vec4(const vec4& v) : x(v.x), y(v.y), z(v.z), w(v.w) {}
+vec4<T>::vec4(const vec4& v) : x(v.x), y(v.y), z(v.z), w(v.w) {
+	std::cout << "Copy: " << (*this) << std::endl;
+}
 
 template<typename T>
-vec4<T>::vec4(const vec4&& v) : x(v.x), y(v.y), z(v.z), w(v.w) {}
+vec4<T>::vec4(const vec4&& v) : x(v.x), y(v.y), z(v.z), w(v.w) {
+	std::cout << "Move: " << (*this) << std::endl;
+}
 
 template<typename T>
 vec4<T>& vec4<T>::operator =(const vec4& v) {
@@ -15,6 +21,8 @@ vec4<T>& vec4<T>::operator =(const vec4& v) {
 	y = v.y;
 	z = v.z;
 	w = v.w;
+
+	std::cout << "Assign: " << (*this) << std::endl;
 
 	return *this;
 }
@@ -42,6 +50,21 @@ vec4<T>& vec4<T>::operator +=(const vec4& v) {
 	w += v.w;
 
 	return *this;
+}
+
+template<typename T>
+vec4<T>&& vec4<T>::operator -() const & {
+	return std::move(vec4(-x, -y, -z, -w));
+}
+
+template<typename T>
+vec4<T>&& vec4<T>::operator -() && {
+	x = -x;
+	y = -y;
+	z = -z;
+	w = -w;
+
+	return std::move(*this);
 }
 
 template<typename T>
@@ -126,7 +149,7 @@ bool vec4<T>::operator ==(const vec4& v) const {
 
 template<typename T>
 vec4<T>& vec4<T>::normalize() {
-	T l = length();
+	const T l = length();
 
 	if (l == 0) {
 		return *this;

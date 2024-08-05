@@ -1,5 +1,6 @@
 #pragma once
 
+#include <immintrin.h>
 #include <iostream>
 
 template<typename T>
@@ -19,6 +20,10 @@ struct vec4 {
 	vec4&& operator +(const vec4&) &&;
 
 	vec4& operator +=(const vec4&);
+
+	vec4&& operator -() const &;
+
+	vec4&& operator -() &&;
 
 	vec4&& operator -(const vec4&) const &;
 
